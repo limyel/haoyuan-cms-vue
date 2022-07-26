@@ -10,14 +10,17 @@ const routes = [
             {
                 name: 'welcome',
                 path: '/welcome',
-                component: () => import('../components/Welcome.vue')
-            },
-            {
-                name: 'login',
-                path: '/login',
-                component: () => import('../components/Login.vue')
+                component: () => import('../views/Welcome.vue')
             }
         ]
+    },
+    {
+        name: "login",
+        path: "/login",
+        meta: {
+            title: "登录"
+        },
+        component: () => import('../views/Login.vue')
     }
 ]
 const router = createRouter({
