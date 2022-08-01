@@ -5,16 +5,16 @@
 const env = import.meta.env.MODE || 'prod';
 const EnvConfig = {
     dev: {
-        baseUrl: '',
-        mockUrl: ''
+        baseUrl: 'localhost:8000',
+        mockUrl: 'localhost:8000'
     },
     test: {
-        baseUrl: '',
-        mockUrl: ''
+        baseUrl: 'localhost:8000',
+        mockUrl: 'localhost:8000'
     },
     prod: {
-        baseUrl: '',
-        mockUrl: ''
+        baseUrl: 'localhost:8000',
+        mockUrl: 'localhost:8000'
     }
 }
 export default {

@@ -6,13 +6,10 @@ import router from "./router";
 import config from "./config";
 import request from "./utils/request";
 import api from "./api";
-import { createPinia } from "pinia";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 const app = createApp(App)
-const pinia = createPinia()
 
-app.use(pinia);
 app.use(ElementPlus);
 app.use(router);
 app.config.globalProperties.$request = request;

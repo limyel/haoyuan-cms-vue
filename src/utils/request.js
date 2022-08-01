@@ -4,59 +4,57 @@
 import axios from "axios";
 import config from "./../config";
 import {ElMessage} from "element-plus";
-import router from "../router";
 
 const service = axios.create({
-    baseURL: config.baseUrl,
-    timeout: 8000,
+  baseURL: config.baseUrl,
+  timeout: 8000,
 })
 
-service.interceptors.request.use((req)=> {
-    const headers = req.headers
-    if (!headers.Authorization) {
-        headers.Authorization = 'Bear lim';
-    }
-    return req;
-})
-service.interceptors.response.use((res)=> {
-    const {code, data, msg}  = res.data;
+service.interceptors.request.use(
+  (request) => {
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  })
+service.interceptors.response.use(
+  (response) => {
+    const {code, data, msg}  = response.data;
     if (code === 0) {
-        return data;
-    } else if (code === 40001) {
-        ElMessage.error(msg);
-        setTimeout(()=> {
-            router.push("/login")
-        }, 15000);
-
+      return data;
     } else {
-        ElMessage.error(msg);
+      ElMessage.error(`Code: ${code}, Message: ${msg}`)
     }
-    return Promise.reject(msg);
-})
+  },
+  (error) => {
+    const {code, data, msg}  = error.response.data;
+    ElMessage.error(`Code: ${code}, Message: ${msg}`)
+  }
+)
 
 function request(options) {
-    options.method = options.method || "get";
-    if (options.method.toLowerCase() === "get") {
-        options.params = options.data;
-    }
+  options.method = options.method || "get";
+  if (options.method.toLowerCase() === "get") {
+    options.params = options.data;
+  }
+  console.log(config.baseUrl)
 
-    if (config.env === "prod") {
-        service.defaults.baseURL = config.baseUrl;
-    } else {
-        service.defaults.baseURL = config.mock ? config.mockUrl: config.baseUrl;
-    }
-    return service(options);
+  return service(options);
 }
 
 ["get", "post", "put", "delete", "patch"].forEach((item)=> {
-    request[item] = (url, data, options) => {
-        return request({
-            url,
-            data,
-            mode: item,
-            ...options
-        });
-    }
+  request[item] = (url, data, options) => {
+    return request({
+      url,
+      data,
+      mode: item,
+      ...options
+    });
+  }
 })
+
+request.get = (url, data, options) => {
+  return request({url: url, data: data, mode: "get"}, ...options);
+}
 
 export default request;
