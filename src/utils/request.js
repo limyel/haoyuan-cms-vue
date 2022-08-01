@@ -4,6 +4,10 @@
 import axios from "axios";
 import config from "./../config";
 import {ElMessage} from "element-plus";
+import {userStore} from "../store/user";
+import store from "../store";
+
+const userStorePinia = userStore(store);
 
 const service = axios.create({
   baseURL: config.baseUrl,
@@ -12,6 +16,9 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (request) => {
+    const headers = request.headers;
+    const token = userStorePinia.token || "";
+    headers.Authorization = "Bearer " + token;
     return request;
   },
   (error) => {
@@ -37,7 +44,6 @@ function request(options) {
   if (options.method.toLowerCase() === "get") {
     options.params = options.data;
   }
-  console.log(config.baseUrl)
 
   return service(options);
 }

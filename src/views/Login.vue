@@ -33,6 +33,7 @@
 
 <script setup>
 import {getCurrentInstance, onMounted, reactive, ref} from "vue";
+import { userStore } from "../store/user";
 
 const { proxy } = getCurrentInstance()
 
@@ -57,12 +58,15 @@ const user = reactive({
   password: "",
   captcha: ""
 })
+const store = userStore();
 
 const login = () => {
   proxy.$api.login(user, captcha.tag).then((response) => {
-    console.log(response);
+    store.token = response;
+    goHome();
+  }).catch((error) => {
+    getCaptcha();
   })
-  getCaptcha();
 }
 
 const resetCaptcha = () => {
@@ -77,46 +81,14 @@ const getCaptcha = () => {
   resetCaptcha();
 }
 
+const goHome = () => {
+  proxy.$router.push({name: "welcome"})
+}
+
 onMounted(() => {
   getCaptcha();
 });
 
-
-
-// export default {
-//   name: "login",
-//   data() {
-//     return {
-//       user: {
-//         username: "",
-//         password: ""
-//       },
-//       rules: {
-//         username: {
-//           required: true,
-//           message: "请输入用户名",
-//           trigger: "blur"
-//         },
-//         password: {
-//           required: true,
-//           message: "请输入密码",
-//           trigger: "blur"
-//         }
-//       }
-//     }
-//   },
-//   methods: {
-//     login() {
-//       this.$refs.userForm.validate((valid) => {
-//         if (valid) {
-//
-//         } else {
-//           return false;
-//         }
-//       })
-//     }
-//   }
-// }
 </script>
 
 <style lang="scss">
