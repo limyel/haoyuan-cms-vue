@@ -5,6 +5,12 @@ export const userStore = defineStore("user", {
       token: ""
     }
   },
-  actions: {},
-  getters: {}
+  actions: {
+    setToken(jwtToken) {
+      this.token = jwtToken;
+      localStorage.setItem('token', this.token);
+    }
+  },
+  getters: {},
+  persist: true,
 })

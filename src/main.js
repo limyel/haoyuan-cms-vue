@@ -3,12 +3,13 @@ import App from "./App.vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import router from "./router";
-import config from "./config";
+import "./config";
 import store from "./store";
 import request from "./utils/request";
 import api from "./api";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
+console.log("环境变量=>", import.meta.env)
 const app = createApp(App)
 
 app.use(ElementPlus);

@@ -62,7 +62,7 @@ const store = userStore();
 
 const login = () => {
   proxy.$api.login(user, captcha.tag).then((response) => {
-    store.token = response;
+    store.setToken(response);
     goHome();
   }).catch((error) => {
     getCaptcha();
@@ -86,6 +86,9 @@ const goHome = () => {
 }
 
 onMounted(() => {
+  if (store.token) {
+    goHome();
+  }
   getCaptcha();
 });
 
