@@ -59,8 +59,4 @@ function request(options) {
   }
 })
 
-request.get = (url, data, options) => {
-  return request({url: url, data: data, mode: "get"}, ...options);
-}
-
 export default request;
