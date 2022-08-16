@@ -31,6 +31,7 @@ service.interceptors.response.use(
       return data;
     } else {
       ElMessage.error(`Code: ${code}, Message: ${msg}`)
+      return Promise.reject(error);
     }
   },
   (error) => {
