@@ -8,7 +8,11 @@ export const userStore = defineStore("user", {
   actions: {
     setToken(jwtToken) {
       this.token = jwtToken;
-      localStorage.setItem('token', this.token);
+      localStorage.setItem("token", this.token);
+    },
+    delToken() {
+      localStorage.removeItem("token");
+      this.token = "";
     }
   },
   getters: {},

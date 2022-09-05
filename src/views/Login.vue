@@ -35,7 +35,7 @@
 import {getCurrentInstance, onMounted, reactive, ref} from "vue";
 import { userStore } from "../store/user";
 
-const { proxy } = getCurrentInstance()
+const { proxy } = getCurrentInstance();
 
 const rules = reactive({
   username: {
